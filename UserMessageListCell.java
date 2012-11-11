@@ -1,8 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chatapp;
+
+/**
+ *
+ * @author Dhruva
+ */
 
 import java.io.File;
 import javafx.scene.control.ListCell;
@@ -14,12 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-/**
- *
- * @author Dhruva
- */
-
- //ListCell  
+//ListCell  
   public class UserMessageListCell extends ListCell<UserMessage> {
   private HBox hbox = new HBox();
   private VBox msgBox = new VBox();
@@ -48,8 +44,8 @@ import javafx.scene.text.Text;
                try {
                     File file = new File(getClass().getResource(sb1.toString()).getFile());
                     profilePic = new Image(getClass().getResourceAsStream(sb1.toString()), 50, 50, true, true);
-                }
-                catch(Exception e){
+               }
+               catch(Exception e){
                     profilePic = new Image(getClass().getResourceAsStream("images/user.png"), 50, 50, true, true);
                 }
               iv2.setImage(profilePic);
@@ -58,8 +54,7 @@ import javafx.scene.text.Text;
               msg.setText(item.getMessage());
               setGraphic(hbox);
             }
-            
-        }
+  }
   }
     
 

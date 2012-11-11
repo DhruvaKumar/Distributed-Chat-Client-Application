@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chatapp;
-
-import javafx.collections.ObservableList;
 
 /**
  *
  * @author Dhruva
  */
+
 public class AddMessage {
     public AddMessage(String user1, String message, String pName,boolean who)
     {
@@ -29,9 +24,7 @@ public class AddMessage {
                     lastUserMessage.add(message);
                     UserList.peers.get(i).obs.set(UserList.peers.get(i).obs.size() - 1, lastUserMessage);
                 }
-            
             }
         }
-       
-}
+    }
 }

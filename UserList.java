@@ -1,54 +1,40 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chatapp;
-
 
 /**
  *
  * @author Dhruva
  */
 
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import java.util.ArrayList;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.text.Text;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextBoundsType;
-import javafx.stage.Stage;
-import np.com.ngopal.control.AutoFillTextBox;
-import javafx.scene.layout.Priority;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
-import javafx.scene.effect.*;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import np.com.ngopal.control.AutoFillTextBox;
 
-
-
-/*public class UserList extends Application{
-    
-    public static void main(String[] args){
-        Application.launch(args);
-    }
-           
-    public void start(Stage stage){*/
 
 public class UserList {
-    
     public static ArrayList<Chat> peers=new ArrayList<Chat>();
     public static ObservableList<String> users;
     public UserList(final String user)
@@ -57,37 +43,30 @@ public class UserList {
     stage.setTitle("UserList");
     stage.setWidth(380);
     stage.setHeight(520);
-    
-    //UserName Text 
-    //String user="Dhruva";
+    //Welcome <User>
     Text t = new Text();
     t.setText("Welcome, "+user);
     t.setFill(Color.rgb(0, 147, 255));;
     t.setBoundsType(TextBoundsType.VISUAL);
     t.setFont(Font.font(Font.getDefault().getFamily(), 25));
     
-    
     users = FXCollections.observableArrayList();
-    
     users.setAll(Global.friends);
-    //ObservableList<String> users = FXCollections.observableArrayList("Kaustubh", "Dexter", "Jim Morrison", "Moriarty", "Morgan", "Jeff Lindsay");
     
-    //AutoFillTextBox    
+    //Search Bar (AutoFillTextBox)    
     final AutoFillTextBox box = new AutoFillTextBox(users);
     box.setListLimit(10);
     box.setFilterMode(true);
     box.getListview().setVisible(false);
-    box.setTextBoxWidth(290);
-    
-   //ListView    
-   final ListView<String> list = new ListView<String>();
-   list.itemsProperty().bind(box.getListview().itemsProperty());
-   list.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
+    box.setTextBoxWidth(290); 
+  
+    //ListView (UserList)
+    final ListView<String> list = new ListView<String>();
+    list.itemsProperty().bind(box.getListview().itemsProperty());
+    list.setOnMouseClicked(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             System.out.println("Clicked on " + list.getSelectionModel().getSelectedItem());
-
             boolean open = false;
             for(int i=0; i<peers.size(); i++){
                     if(peers.get(i).peerName.equals(list.getSelectionModel().getSelectedItem()))
@@ -96,7 +75,6 @@ public class UserList {
                         peers.get(i).stage.toFront();
                         open = true; 
                     }
-                        
             }
             if(!open){
                 peers.add(new Chat(list.getSelectionModel().getSelectedItem(), user));
@@ -104,7 +82,8 @@ public class UserList {
             }
         }
     });
-      //Cell Factory
+      
+    //Cell Factory (Customization of the cell)
       list.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override public ListCell<String> call(ListView<String> list) {
                  ListCell<String> cell = new ListCell<String>() {
@@ -125,62 +104,59 @@ public class UserList {
                 cell.setPrefHeight(50);
                 return cell;
             }
-        });
+      });
+      
+    //Search Icon
+    Image search = new Image(getClass().getResourceAsStream("images/search.png"), 30, 30, true, true);
+    ImageView isearch = new ImageView();
+    isearch.setImage(search);
+    //HBox -[Search Icon, Search bar]
+    HBox hbox = new HBox();
+    hbox.getChildren().addAll(isearch, box);
+    hbox.setSpacing(5);
    
-   //Search Icon
-   Image search = new Image(getClass().getResourceAsStream("images/search.png"), 30, 30, true, true);
-   ImageView isearch = new ImageView();
-   isearch.setImage(search);
-   
-   HBox hbox = new HBox();
-   hbox.getChildren().addAll(isearch, box);
-   hbox.setSpacing(5);
-   
-   final TextField addT = new TextField();
-   addT.setPromptText("Enter UserName");
-   addT.setVisible(false);
-   //Add Button
-   Button addB = new Button("Add User");
-   addB.setOnAction(new EventHandler<ActionEvent>() {
+    //Add New User tab
+    final TextField addT = new TextField();
+    addT.setPromptText("Enter UserName");
+    addT.setVisible(false);
+    //Add Button
+    Button addB = new Button("Add User");
+    //Set the AddNewUser field visible only when the Add button is clicked
+    addB.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
             public void handle(ActionEvent e) {
-                       addT.setVisible(true);
-                        }
-        });
-    //Add user TextField
+                addT.setVisible(true); 
+            }
+    });
+    //AddNewUser TextField - Adds new user
     addT.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent t) 
-         {
+        @Override public void handle(ActionEvent t) {
               Global.friend(addT.getText(), true);
-         }
-        });
+        }
+    });
+    //HBox - [AddButton, AddNewUserField]
     HBox hbox2 = new HBox();
     hbox2.getChildren().addAll(addB, addT);
     hbox2.setSpacing(10);
    
-   //VBox - Overall Layout
-   VBox vbox = new VBox();
-   vbox.getChildren().addAll(t,hbox,list, hbox2);
-   vbox.setSpacing(20);
-   VBox.setVgrow(list, Priority.ALWAYS);
-   vbox.setPadding(new Insets(20,20,10,20));
-   Scene scene = new Scene(vbox,300,200);
+    //VBox - Overall Layout [Welcome title:Search bar:User List:AddNewUser bar]
+    VBox vbox = new VBox();
+    vbox.getChildren().addAll(t,hbox,list, hbox2);
+    vbox.setSpacing(20);
+    VBox.setVgrow(list, Priority.ALWAYS);
+    vbox.setPadding(new Insets(20,20,10,20));
+    Scene scene = new Scene(vbox,300,200);
    
-   //Shadow Effect
-   DropShadow ds = new DropShadow();
-   ds.setOffsetY(0.5);
-   ds.setOffsetX(0.5);
-   ds.setColor(Color.GRAY);
-   list.setEffect(ds);
-   hbox.setEffect(ds);
+    //Shadow Effect
+    DropShadow ds = new DropShadow();
+    ds.setOffsetY(0.5);
+    ds.setOffsetX(0.5);
+    ds.setColor(Color.GRAY);
+    list.setEffect(ds);
+    hbox.setEffect(ds);
    
-
-   stage.setScene(scene);
-   scene.getStylesheets().addAll(UserList.class.getResource("UserList.css").toExternalForm());
-   stage.show();
-        
-    
-    
+    stage.setScene(scene);
+    scene.getStylesheets().addAll(UserList.class.getResource("UserList.css").toExternalForm()); //CSS
+    stage.show();
     }
-    
 }
