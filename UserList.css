@@ -1,0 +1,31 @@
+/* 
+    Document   : control
+    Created on : Jun 13, 2012, 3:52:31 PM
+    Author     : Dhruva
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+.autofill-text {
+    -fx-skin: "np.com.ngopal.control.AutoFillTextBoxSkin";
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #0093ff;
+    -fx-text-fill: white;
+}
+button {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#648be3, #396adc);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    }
+    
+    .button:hover {
+    -fx-background-color: linear-gradient(#396adc, #648be3);
+}
+
+
